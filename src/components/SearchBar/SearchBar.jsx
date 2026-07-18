@@ -5,8 +5,12 @@ export default function SearchBar() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   function changekeyword(value) {
-    const params = URLSearchParams(searchParams);
-    params.set("keyword", value);
+    const params = new URLSearchParams(searchParams);
+    if (value) {
+      params.set("keyword", value);
+    } else {
+      params.delete("keyword");
+    }
     setSearchParams(params);
   }
 

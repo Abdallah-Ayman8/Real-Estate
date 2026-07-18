@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-const AppContext = createContext(null);
+export const AppContext = createContext(null);
 
 const MIN_PRICE = 500;
 const DEFAULT_MAX_PRICE = 5000;

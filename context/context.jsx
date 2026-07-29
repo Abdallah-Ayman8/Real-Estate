@@ -16,6 +16,7 @@ export function AppProvider({ children }) {
   const [totalPages, setTotalPages] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const [hasNextPage, setHasNextPage] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // ---------- filters/pagination derived from the URL ----------
   const bedrooms = searchParams.get("bedrooms") || "";
@@ -152,6 +153,8 @@ export function AppProvider({ children }) {
     goToPage,
     nextPage,
     prevPage,
+    isSidebarOpen,
+    setIsSidebarOpen,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

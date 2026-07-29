@@ -6,7 +6,7 @@ export default function Header() {
     <div className="bg-white rounded-xl p-6 shadow">
       <Tabs />
 
-      <div className="grid grid-cols-4 gap-6 mt-5">
+      <div className="flex items-center justify-between mt-4 flex-wrap gap-4">
         <div>
           <p className="text-gray-400 text-sm">Community</p>
           <h3 className="font-semibold">North Coast, Egypt</h3>

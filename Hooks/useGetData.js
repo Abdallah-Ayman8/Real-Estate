@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { api } from "../api/RealEstate";
 
 export function useGetData() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -27,12 +28,12 @@ export function useGetData() {
     setSearchParams(params);
   }
 
+  // Axios
   useEffect(() => {
-    const controller = new AbortController();
-    async function fetchData() {
+    async function fetchEstate() {
       setIsLoading(true);
+      const apiKey = import.meta.env.VITE_API_KEY;
       try {
-        const apiKey = import.meta.env.VITE_API_KEY;
         const params = new URLSearchParams();
         if (bedrooms) params.set("bedrooms", bedrooms);
         params.append("price[]", 500);
@@ -41,21 +42,54 @@ export function useGetData() {
         params.set("limit", limit);
         if (keyword) params.set("keyword", keyword);
 
-        const res = await fetch(
-          `https://backend-dev.yozya.com/api/v1/mobile/real-estates?${params?.toString()}`,
-          {
-            method: "GET",
-            signal: controller.signal,
-            headers: {
-              Accept: "application/json",
-              "x-api-key": apiKey,
-              "Accept-Language": "en",
-              platform: "web",
-              "app-version": "1.1",
-              "X-Currency": "EGP",
-            },
+        const res = await api.get(`/?${params}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "x-api-key": apiKey,
+            "Accept-Language": "en",
+            platform: "web",
+            "app-version": "1.1",
+            "X-Currency": "EGP",
           },
-        );
+        });
+        const data = res.data.data;
+        setData(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    fetchEstate();
+  }, [bedrooms, keyword, limit, page, maxPrice]);
+
+  // Fetch
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true);
+      try {
+        const apiKey = import.meta.env.VITE_API_KEY;
+        const url = import.meta.env.VITE_URL;
+        const params = new URLSearchParams();
+        if (bedrooms) params.set("bedrooms", bedrooms);
+        params.append("price[]", 500);
+        params.append("price[]", maxPrice);
+        params.set("page", page);
+        params.set("limit", limit);
+        if (keyword) params.set("keyword", keyword);
+
+        const res = await fetch(`${url}?${params?.toString()}`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "x-api-key": apiKey,
+            "Accept-Language": "en",
+            platform: "web",
+            "app-version": "1.1",
+            "X-Currency": "EGP",
+          },
+        });
 
         if (!res.ok) throw new Error(`Request failed: ${res.status}`);
 
@@ -70,8 +104,7 @@ export function useGetData() {
         setIsLoading(false);
       }
     }
-    fetchData();
-    return () => controller.abort();
+    // fetchData();
   }, [bedrooms, keyword, limit, page, maxPrice]);
 
   return { data, isLoading };

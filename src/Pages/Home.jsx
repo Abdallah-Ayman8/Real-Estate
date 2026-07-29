@@ -2,31 +2,32 @@ import Header from "../components/Header/Header";
 import Sidebar from "../components/SideBar/SideBar";
 import SearchBar from "../components/SearchBar/SearchBar";
 import PropertyGrid from "../components/PropertyGrid/PropertyGrid";
-import { useAppContext } from "../../context/context";
-import { Loader } from "lucide-react";
+import { SidebarIcon } from "lucide-react";
 import Pagination from "../components/pagination/pagination";
+import { useAppContext } from "../../context/context";
 
 export default function Home() {
-  const { isLoading } = useAppContext();
+  const { setIsSidebarOpen } = useAppContext();
 
   return (
     <main className="bg-slate-50 min-h-screen">
-      <div className="max-w-7xl mx-auto p-8">
+      <div className="max-w-8xl mx-auto p-8">
         <Header />
 
-        <div className="grid grid-cols-12 gap-8 mt-8">
+        <div className="flex flex-row items-start mt-12 gap-8 relative">
           <Sidebar />
+          <button
+            className="sm:hidden absolute top-0 -left-7.5 cursor-pointer"
+            onClick={() => setIsSidebarOpen((prev) => !prev)}
+          >
+            <SidebarIcon />
+          </button>
 
-          <div className="col-span-9">
+          <div className="flex w-full flex-col flex-wrap">
             <SearchBar />
-            {isLoading ? (
-              <Loader
-                className="flex justify-center items-center w-full mt-24"
-                size={40}
-              />
-            ) : (
-              <PropertyGrid />
-            )}
+
+            <PropertyGrid />
+
             <Pagination />
           </div>
         </div>

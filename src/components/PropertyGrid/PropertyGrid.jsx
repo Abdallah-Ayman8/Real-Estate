@@ -3,7 +3,7 @@ import PropertyCard from "../PropertyCard/PropertyCard";
 export default function PropertyGrid() {
   return (
     <>
-      <div className="grid grid-cols-2 gap-6 mt-8">
+      <div className="flex w-full flex-wrap lg:justify-center md:justify-start items-center mt-8 gap-6">
         <PropertyCard />
       </div>
     </>

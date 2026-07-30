@@ -1,36 +1,22 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { api } from "../api/RealEstate";
 
-export function useGetData() {
+export function useGetData(api) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
+  const [totalPages, setTotalPages] = useState(0);
 
   const bedrooms = searchParams.get("bedrooms");
   const maxPrice = searchParams.get("maxPrice") || 2000;
   const page = searchParams.get("page") || 1;
-  const limit = searchParams.get("limit") || 5;
+  const limit = searchParams.get("limit") || 8;
   const keyword = searchParams.get("keyword") || "";
-
-  function updateParams(updates, { resetPage = true }) {
-    const params = new URLSearchParams(updates);
-
-    Object.entries(updates).forEach(([key, value]) => {
-      if (value === "" || value === null || value === undefined) {
-        params.delete(key);
-      } else {
-        params.set(key, value);
-      }
-    });
-    if (resetPage) params.set("page", String(1));
-    setSearchParams(params);
-  }
 
   // Axios
   useEffect(() => {
-    async function fetchEstate() {
+    async function fetchEstate(api) {
       setIsLoading(true);
       const apiKey = import.meta.env.VITE_API_KEY;
       try {
@@ -42,8 +28,7 @@ export function useGetData() {
         params.set("limit", limit);
         if (keyword) params.set("keyword", keyword);
 
-        const res = await api.get(`/?${params}`, {
-          method: "GET",
+        const res = await api?.get(`/?${params}`, {
           headers: {
             Accept: "application/json",
             "x-api-key": apiKey,
@@ -53,7 +38,10 @@ export function useGetData() {
             "X-Currency": "EGP",
           },
         });
-        const data = res.data.data;
+        console.log(res);
+        const totalPages = res?.data?.meta?.last_page;
+        setTotalPages(totalPages);
+        const data = res?.data?.data;
         setData(data);
       } catch (error) {
         console.error(error);
@@ -61,8 +49,8 @@ export function useGetData() {
         setIsLoading(false);
       }
     }
-    fetchEstate();
-  }, [bedrooms, keyword, limit, page, maxPrice]);
+    fetchEstate(api);
+  }, [bedrooms, keyword, limit, page, maxPrice, api]);
 
   // Fetch
   useEffect(() => {
@@ -107,5 +95,5 @@ export function useGetData() {
     // fetchData();
   }, [bedrooms, keyword, limit, page, maxPrice]);
 
-  return { data, isLoading };
+  return { data, isLoading, totalPages, page };
 }

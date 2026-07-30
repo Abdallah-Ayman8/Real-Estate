@@ -11,11 +11,9 @@ const DEFAULT_LIMIT = 5;
 export function AppProvider({ children }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const [totalPages, setTotalPages] = useState(0);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalResults, setTotalResults] = useState(0);
-  const [hasNextPage, setHasNextPage] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // ---------- filters/pagination derived from the URL ----------
@@ -42,42 +40,17 @@ export function AppProvider({ children }) {
   }
 
   function goToPage(nextPageNumber) {
-    updateParams({ page: nextPageNumber }, { resetPage: false });
+    updateParams({ page: Number(nextPageNumber) }, { resetPage: false });
   }
 
   function nextPage() {
-    const canAdvance = totalPages > 1 ? page < totalPages : hasNextPage;
-    if (canAdvance) goToPage(page + 1);
+    const canAdvance =
+      Number(totalPages) > 1 && Number(page) < Number(totalPages);
+    if (canAdvance) goToPage(Number(page) + 1);
   }
 
   function prevPage() {
-    if (page > 1) goToPage(page - 1);
-  }
-
-  // ---------- extract total/page count from whatever shape the API returns ----------
-  function extractPagination(result, itemsReturned) {
-    const total =
-      result.meta?.total ??
-      result.meta?.totalItems ??
-      result.pagination?.total ??
-      result.pagination?.totalItems ??
-      result.total ??
-      null;
-
-    const pages =
-      result.meta?.totalPages ??
-      result.meta?.last_page ??
-      result.pagination?.totalPages ??
-      result.pagination?.last_page ??
-      result.totalPages ??
-      result.last_page ??
-      null;
-
-    if (pages)
-      return { totalPages: pages, totalResults: total ?? pages * limit };
-    if (total)
-      return { totalPages: Math.ceil(total / limit), totalResults: total };
-    return { totalPages: 1, totalResults: itemsReturned };
+    if (page > 1) goToPage(Number(page) - 1);
   }
 
   // ---------- fetch ----------
@@ -116,15 +89,10 @@ export function AppProvider({ children }) {
 
         const result = await res.json();
         const items = result.data ?? [];
+        const totalPages = res?.data?.meta?.last_page;
+        setTotalPages(totalPages);
 
         setData(items);
-        const { totalPages: pages, totalResults: total } = extractPagination(
-          result,
-          items.length,
-        );
-        setTotalPages(pages);
-        setTotalResults(total);
-        setHasNextPage(items.length === limit);
       } catch (err) {
         if (err.name !== "AbortError") {
           console.error("Error fetching listings:", err);
@@ -134,16 +102,13 @@ export function AppProvider({ children }) {
       }
     }
 
-    fetchListings();
+    // fetchListings();
     return () => controller.abort();
   }, [bedrooms, maxPrice, keyword, limit, page]);
 
   const value = {
     data,
     isLoading,
-    totalPages,
-    totalResults,
-    hasNextPage,
     bedrooms,
     maxPrice,
     page,

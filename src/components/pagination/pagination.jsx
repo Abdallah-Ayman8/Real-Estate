@@ -5,7 +5,19 @@ import { api } from "../../../api/RealEstate";
 export default function Pagination() {
   const { totalPages, isLoading, page } = useGetData(api);
 
-  const { goToPage, prevPage, nextPage } = useAppContext();
+  const { goToPage, prevPage } = useAppContext();
+
+  function nextPage() {
+    // console.log({
+    //   page,
+    //   totalPages,
+    //   pageType: typeof page,
+    //   totalPagesType: typeof totalPages,
+    // });
+    const canAdvance = totalPages > 1 && Number(page) < totalPages;
+    if (canAdvance) goToPage(Number(page) + 1);
+    // console.log(canAdvance);
+  }
 
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 

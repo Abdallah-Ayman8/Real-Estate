@@ -43,12 +43,6 @@ export function AppProvider({ children }) {
     updateParams({ page: Number(nextPageNumber) }, { resetPage: false });
   }
 
-  function nextPage() {
-    const canAdvance =
-      Number(totalPages) > 1 && Number(page) < Number(totalPages);
-    if (canAdvance) goToPage(Number(page) + 1);
-  }
-
   function prevPage() {
     if (page > 1) goToPage(Number(page) - 1);
   }
@@ -116,7 +110,6 @@ export function AppProvider({ children }) {
     keyword,
     updateParams,
     goToPage,
-    nextPage,
     prevPage,
     isSidebarOpen,
     setIsSidebarOpen,

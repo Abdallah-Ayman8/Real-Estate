@@ -38,7 +38,6 @@ export function useGetData(api) {
             "X-Currency": "EGP",
           },
         });
-        console.log(res);
         const totalPages = res?.data?.meta?.last_page;
         setTotalPages(totalPages);
         const data = res?.data?.data;

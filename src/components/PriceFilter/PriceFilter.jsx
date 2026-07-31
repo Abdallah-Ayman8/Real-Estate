@@ -5,7 +5,7 @@ import { useState } from "react";
 export default function PriceFilter() {
   const [range, setRange] = useState([800, 2500]);
 
-  const { maxPriceValue, updateParams } = useAppContext();
+  const { updateParams } = useAppContext();
 
   function changePrice(minValue, maxValue) {
     updateParams({ miniPrice: minValue, maxPrice: maxValue });

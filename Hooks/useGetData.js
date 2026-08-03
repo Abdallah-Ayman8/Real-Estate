@@ -1,12 +1,17 @@
-import { useEffect, useState } from "react";
+import { fetchError, fetchStart, fetchSuccess } from "@/slicer";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { api } from "../api/RealEstate";
 
-export function useGetData(api) {
+export function useGetData() {
+  const dispatch = useDispatch();
+
+  const { data, isLoading, totalPages } = useSelector(
+    (state) => state.listings,
+  );
+
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState(null);
-  const [totalPages, setTotalPages] = useState(0);
 
   const bedrooms = searchParams.get("bedrooms");
   const maxPrice = searchParams.get("maxPrice") || 2000;
@@ -17,7 +22,7 @@ export function useGetData(api) {
   // Axios
   useEffect(() => {
     async function fetchEstate(api) {
-      setIsLoading(true);
+      dispatch(fetchStart());
       const apiKey = import.meta.env.VITE_API_KEY;
       try {
         const params = new URLSearchParams();
@@ -39,60 +44,58 @@ export function useGetData(api) {
           },
         });
         const totalPages = res?.data?.meta?.last_page;
-        setTotalPages(totalPages);
         const data = res?.data?.data;
-        setData(data);
+        dispatch(fetchSuccess(data, totalPages));
       } catch (error) {
-        console.error(error);
-      } finally {
-        setIsLoading(false);
+        dispatch(fetchError(error));
       }
     }
     fetchEstate(api);
-  }, [bedrooms, keyword, limit, page, maxPrice, api]);
-
-  // Fetch
-  useEffect(() => {
-    async function fetchData() {
-      setIsLoading(true);
-      try {
-        const apiKey = import.meta.env.VITE_API_KEY;
-        const url = import.meta.env.VITE_URL;
-        const params = new URLSearchParams();
-        if (bedrooms) params.set("bedrooms", bedrooms);
-        params.append("price[]", 500);
-        params.append("price[]", maxPrice);
-        params.set("page", page);
-        params.set("limit", limit);
-        if (keyword) params.set("keyword", keyword);
-
-        const res = await fetch(`${url}?${params?.toString()}`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "x-api-key": apiKey,
-            "Accept-Language": "en",
-            platform: "web",
-            "app-version": "1.1",
-            "X-Currency": "EGP",
-          },
-        });
-
-        if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-
-        const result = await res.json();
-
-        setData(result);
-      } catch (err) {
-        if (err.name !== "AbortError") {
-          console.error("Error fetching listings:", err);
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    // fetchData();
-  }, [bedrooms, keyword, limit, page, maxPrice]);
+  }, [bedrooms, keyword, limit, page, maxPrice, dispatch]);
 
   return { data, isLoading, totalPages, page };
 }
+
+// Fetch
+/*  useEffect(() => {
+  async function fetchData() {
+    setIsLoading(true);
+    try {
+      const apiKey = import.meta.env.VITE_API_KEY;
+      const url = import.meta.env.VITE_URL;
+      const params = new URLSearchParams();
+      if (bedrooms) params.set("bedrooms", bedrooms);
+      params.append("price[]", 500);
+      params.append("price[]", maxPrice);
+      params.set("page", page);
+      params.set("limit", limit);
+      if (keyword) params.set("keyword", keyword);
+
+      const res = await fetch(`${url}?${params?.toString()}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "x-api-key": apiKey,
+          "Accept-Language": "en",
+          platform: "web",
+          "app-version": "1.1",
+          "X-Currency": "EGP",
+        },
+      });
+
+      if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+
+      const result = await res.json();
+
+      setData(result);
+    } catch (err) {
+      if (err.name !== "AbortError") {
+        console.error("Error fetching listings:", err);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  // fetchData();
+}, [bedrooms, keyword, limit, page, maxPrice]);
+*/

@@ -1,11 +1,10 @@
 import PropertyInfo from "../PropertyInfo/PropertyInfo";
 import FavoriteButton from "../FavoriteButton/FavoriteButton";
-import { useGetData } from "../../../Hooks/useGetData";
 import { Loader } from "lucide-react";
-import { api } from "../../../api/RealEstate";
+import { useSelector } from "react-redux";
 
 export default function PropertyCard() {
-  const { data, isLoading } = useGetData(api);
+  const { data, isLoading } = useSelector((state) => state.listings);
 
   return (
     <>

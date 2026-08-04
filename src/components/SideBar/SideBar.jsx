@@ -1,10 +1,13 @@
 import PriceFilter from "../PriceFilter/PriceFilter";
 import FacilitiesFilter from "../FacilitiesFilter/FacilitiesFilter";
-import { useAppContext } from "../../../context/context";
 import { X } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { closeSidebar } from "@/slicer";
 
 export default function Sidebar() {
-  const { isSidebarOpen, setIsSidebarOpen } = useAppContext();
+  const { isSidebarOpen } = useSelector((state) => state.listings);
+
+  const dispatch = useDispatch();
 
   return (
     <aside
@@ -16,7 +19,7 @@ export default function Sidebar() {
         <h2 className="font-bold text-xl">Filters</h2>
         <button
           className="cursor-pointer sm:hidden"
-          onClick={() => setIsSidebarOpen((prev) => !prev)}
+          onClick={() => dispatch(closeSidebar())}
         >
           <X />
         </button>

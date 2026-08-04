@@ -1,11 +1,17 @@
-import { useAppContext } from "../../../context/context";
+import { useSelector } from "react-redux";
 import { useGetData } from "../../../Hooks/useGetData";
-import { api } from "../../../api/RealEstate";
 
 export default function Pagination() {
-  const { totalPages, isLoading, page } = useGetData(api);
+  const { isLoading, totalPages } = useSelector((state) => state.data);
+  const { UpdateParams, page } = useGetData();
 
-  const { goToPage, prevPage } = useAppContext();
+  function goToPage(nextPageNumber) {
+    UpdateParams({ page: Number(nextPageNumber) }, { resetPage: false });
+  }
+
+  function prevPage() {
+    if (page > 1) goToPage(Number(page) - 1);
+  }
 
   function nextPage() {
     // console.log({
@@ -14,12 +20,12 @@ export default function Pagination() {
     //   pageType: typeof page,
     //   totalPagesType: typeof totalPages,
     // });
-    const canAdvance = totalPages > 1 && Number(page) < totalPages;
+    const canAdvance = totalPages > 1 && Number(page) < totalPages / 8;
     if (canAdvance) goToPage(Number(page) + 1);
     // console.log(canAdvance);
   }
 
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
+  const pages = Array.from({ length: totalPages / 8 }, (_, i) => i + 1);
 
   return (
     <>

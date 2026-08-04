@@ -1,7 +1,8 @@
-import { useAppContext } from "../../../context/context";
+import { openSidebar } from "@/slicer";
+import { useDispatch } from "react-redux";
 
 export default function Tabs() {
-  const { setIsSidebarOpen } = useAppContext();
+  const dispatch = useDispatch();
 
   return (
     <div className="flex gap-8 border-b pb-4">
@@ -13,7 +14,7 @@ export default function Tabs() {
 
       <button
         className="md:hidden text-gray-400 cursor-pointer"
-        onClick={() => setIsSidebarOpen((prev) => !prev)}
+        onClick={() => dispatch(openSidebar())}
       >
         Filters
       </button>

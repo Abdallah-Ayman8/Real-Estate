@@ -1,59 +1,42 @@
-import { fetchError, fetchStart, fetchSuccess } from "@/slicer";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { api } from "../api/RealEstate";
+import { fetchData } from "@/features/dataSlicer";
 
 export function useGetData() {
   const dispatch = useDispatch();
 
-  const { data, isLoading, totalPages } = useSelector(
-    (state) => state.listings,
-  );
-
+  const { data, isLoading } = useSelector((state) => state.data);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const bedrooms = searchParams.get("bedrooms");
+  const bedrooms = searchParams.get("bedrooms") || 4;
   const maxPrice = searchParams.get("maxPrice") || 2000;
+  const minPrice = searchParams.get("minPrice") || 800;
   const page = searchParams.get("page") || 1;
   const limit = searchParams.get("limit") || 8;
   const keyword = searchParams.get("keyword") || "";
 
+  function UpdateParams(updates, { resetPage = true } = {}) {
+    const params = new URLSearchParams(searchParams);
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === "" || value === null || value === undefined) {
+        params.delete(key);
+      } else {
+        params.set(key, value);
+      }
+    });
+    if (resetPage) params.set("page", String(1));
+    setSearchParams(params);
+  }
+
   // Axios
   useEffect(() => {
-    async function fetchEstate(api) {
-      dispatch(fetchStart());
-      const apiKey = import.meta.env.VITE_API_KEY;
-      try {
-        const params = new URLSearchParams();
-        if (bedrooms) params.set("bedrooms", bedrooms);
-        params.append("price[]", 500);
-        params.append("price[]", maxPrice);
-        params.set("page", page);
-        params.set("limit", limit);
-        if (keyword) params.set("keyword", keyword);
+    const promise = dispatch(
+      fetchData({ bedrooms, keyword, maxPrice, minPrice, limit, page }),
+    );
+  }, [dispatch, bedrooms, keyword, maxPrice, minPrice, limit, page]);
 
-        const res = await api?.get(`/?${params}`, {
-          headers: {
-            Accept: "application/json",
-            "x-api-key": apiKey,
-            "Accept-Language": "en",
-            platform: "web",
-            "app-version": "1.1",
-            "X-Currency": "EGP",
-          },
-        });
-        const totalPages = res?.data?.meta?.last_page;
-        const data = res?.data?.data;
-        dispatch(fetchSuccess(data, totalPages));
-      } catch (error) {
-        dispatch(fetchError(error));
-      }
-    }
-    fetchEstate(api);
-  }, [bedrooms, keyword, limit, page, maxPrice, dispatch]);
-
-  return { data, isLoading, totalPages, page };
+  return { data, isLoading, UpdateParams, page };
 }
 
 // Fetch

@@ -24,28 +24,28 @@ export function AppProvider({ children }) {
   const keyword = searchParams.get("keyword") || "";
 
   // ---------- URL helpers ----------
-  function updateParams(updates, { resetPage = true } = {}) {
-    const params = new URLSearchParams(searchParams);
+  // function updateParams(updates, { resetPage = true } = {}) {
+  //   const params = new URLSearchParams(searchParams);
 
-    Object.entries(updates).forEach(([key, value]) => {
-      if (value === "" || value === null || value === undefined) {
-        params.delete(key);
-      } else {
-        params.set(key, value);
-      }
-    });
+  //   Object.entries(updates).forEach(([key, value]) => {
+  //     if (value === "" || value === null || value === undefined) {
+  //       params.delete(key);
+  //     } else {
+  //       params.set(key, value);
+  //     }
+  //   });
 
-    if (resetPage) params.set("page", String(DEFAULT_PAGE));
-    setSearchParams(params);
-  }
+  //   if (resetPage) params.set("page", String(DEFAULT_PAGE));
+  //   setSearchParams(params);
+  // }
 
-  function goToPage(nextPageNumber) {
-    updateParams({ page: Number(nextPageNumber) }, { resetPage: false });
-  }
+  // function goToPage(nextPageNumber) {
+  //   updateParams({ page: Number(nextPageNumber) }, { resetPage: false });
+  // }
 
-  function prevPage() {
-    if (page > 1) goToPage(Number(page) - 1);
-  }
+  // function prevPage() {
+  //   if (page > 1) goToPage(Number(page) - 1);
+  // }
 
   // ---------- fetch ----------
   useEffect(() => {

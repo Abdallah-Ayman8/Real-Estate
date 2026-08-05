@@ -1,4 +1,4 @@
-import { openSidebar } from "@/slicer";
+import { openSidebar } from "@/Redux/slices/RealEstate/slicer";
 import { useDispatch } from "react-redux";
 
 export default function Tabs() {

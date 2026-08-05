@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import listingsReducer from "@/slicer";
-import dataReducer from "./features/dataSlicer";
+import listingsReducer from "@/Redux/slices/RealEstate/slicer";
+import dataReducer from "../slices/RealEstate/thunk";
 
 const store = configureStore({
   reducer: {

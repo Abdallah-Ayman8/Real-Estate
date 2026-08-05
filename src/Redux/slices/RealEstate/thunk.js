@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { api } from "../../api/RealEstate";
+import { api } from "../../../../api/RealEstate";
 
 const initialState = {
   isLoading: false,
@@ -31,25 +31,19 @@ const dataSlice = createSlice({
 
 export const fetchData = createAsyncThunk(
   "data/fetching",
-  async function (
-    { bedrooms, keyword, maxPrice, minPrice, page },
-    { rejectWithValue },
-  ) {
+  async function ({ url, params }, { rejectWithValue }) {
     const apiKey = import.meta.env.VITE_API_KEY;
     try {
-      const res = await api.get(
-        `/?limit=8&${bedrooms}&${keyword}&${minPrice}&${maxPrice}&${page}`,
-        {
-          headers: {
-            Accept: "application/json",
-            "x-api-key": apiKey,
-            "Accept-Language": "en",
-            platform: "web",
-            "app-version": "1.1",
-            "X-Currency": "EGP",
-          },
+      const res = await api.get(`/${url || ""}?${params || ""}`, {
+        headers: {
+          Accept: "application/json",
+          "x-api-key": apiKey,
+          "Accept-Language": "en",
+          platform: "web",
+          "app-version": "1.1",
+          "X-Currency": "EGP",
         },
-      );
+      });
       const totalPages = res?.data?.meta?.last_page;
       const data = res?.data?.data;
       return { data, totalPages };

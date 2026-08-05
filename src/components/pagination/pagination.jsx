@@ -2,8 +2,8 @@ import { useSelector } from "react-redux";
 import { useGetData } from "../../../Hooks/useGetData";
 
 export default function Pagination() {
-  const { isLoading, totalPages } = useSelector((state) => state.data);
-  const { UpdateParams, page } = useGetData();
+  const { totalPages } = useSelector((state) => state.data);
+  const { UpdateParams, page, isLoading } = useGetData("");
 
   function goToPage(nextPageNumber) {
     UpdateParams({ page: Number(nextPageNumber) }, { resetPage: false });
@@ -25,8 +25,10 @@ export default function Pagination() {
     // console.log(canAdvance);
   }
 
-  const pages = Array.from({ length: totalPages / 8 }, (_, i) => i + 1);
-
+  const pages = Array.from(
+    { length: Math.ceil(totalPages / 8) },
+    (_, i) => i + 1,
+  );
   return (
     <>
       {!isLoading && (
@@ -53,7 +55,7 @@ export default function Pagination() {
 
           <button
             onClick={nextPage}
-            disabled={Number(page) === totalPages}
+            disabled={Number(page) === Math.ceil(totalPages / 8)}
             className="px-3 py-1 border rounded disabled:opacity-40 cursor-pointer disabled:cursor-default"
           >
             Next

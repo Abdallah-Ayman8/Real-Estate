@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { fetchData } from "@/features/dataSlicer";
+import { fetchData } from "@/Redux/slices/RealEstate/thunk";
 
-export function useGetData() {
+export function useGetData(url) {
   const dispatch = useDispatch();
 
   const { data, isLoading } = useSelector((state) => state.data);
@@ -29,12 +29,16 @@ export function useGetData() {
     setSearchParams(params);
   }
 
+  const params = { bedrooms, keyword, maxPrice, minPrice, limit, page };
   // Axios
   useEffect(() => {
     const promise = dispatch(
-      fetchData({ bedrooms, keyword, maxPrice, minPrice, limit, page }),
+      fetchData({
+        url,
+        params: { bedrooms, keyword, maxPrice, minPrice, limit, page },
+      }),
     );
-  }, [dispatch, bedrooms, keyword, maxPrice, minPrice, limit, page]);
+  }, [url, dispatch, bedrooms, keyword, maxPrice, minPrice, limit, page]);
 
   return { data, isLoading, UpdateParams, page };
 }

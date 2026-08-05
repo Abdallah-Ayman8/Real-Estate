@@ -2,7 +2,7 @@ import PriceFilter from "../PriceFilter/PriceFilter";
 import FacilitiesFilter from "../FacilitiesFilter/FacilitiesFilter";
 import { X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { closeSidebar } from "@/slicer";
+import { closeSidebar } from "@/Redux/slices/RealEstate/slicer";
 
 export default function Sidebar() {
   const { isSidebarOpen } = useSelector((state) => state.listings);

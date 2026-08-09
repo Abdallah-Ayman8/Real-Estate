@@ -4,7 +4,7 @@ import { Loader } from "lucide-react";
 import { useGetData } from "../../../Hooks/useGetData";
 
 export default function PropertyCard() {
-  const { data, isLoading } = useGetData();
+  const { data, isLoading } = useGetData("mobile/real-estates/");
 
   return (
     <>

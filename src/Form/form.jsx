@@ -68,10 +68,12 @@ export default function Form() {
         className="w-1/2 flex flex-col gap-3"
       >
         <div className="flex flex-col gap-2">
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
           <input
+            id="email"
             name="email"
             type="email"
+            placeholder="Email..."
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -82,10 +84,12 @@ export default function Form() {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <label>Name</label>
+          <label htmlFor="name">Name</label>
           <input
+            id="name"
             name="name"
             type="text"
+            placeholder="Name..."
             value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -96,10 +100,12 @@ export default function Form() {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <label>Username</label>
+          <label htmlFor="username">Username</label>
           <input
+            id="username"
             name="userName"
             type="text"
+            placeholder="Username..."
             value={formik.values.userName}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -110,10 +116,12 @@ export default function Form() {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <label>Phone</label>
+          <label htmlFor="phone">Phone</label>
           <input
+            id="phone"
             name="phone"
             type="tel"
+            placeholder="Phone..."
             value={formik.values.phone}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -124,10 +132,12 @@ export default function Form() {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
+            id="password"
             name="password"
             type="password"
+            placeholder="Password..."
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -138,10 +148,12 @@ export default function Form() {
           )}
         </div>
         <div className="flex flex-col gap-2">
-          <label>Confirm Password</label>
+          <label htmlFor="confirm_password">Confirm Password</label>
           <input
+            id="confirm_password"
             name="confirmPassword"
             type="password"
+            placeholder="Confirm password..."
             value={formik.values.confirmPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}

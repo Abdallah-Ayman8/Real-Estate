@@ -1,13 +1,14 @@
 import { Slider } from "@/components/ui/slider";
+import { useUpdateParams } from "@/lib/utils";
 import { useState } from "react";
-import { useGetData } from "../../../Hooks/useGetData";
 
 export default function PriceFilter() {
-  const [range, setRange] = useState([800, 2500]);
-  const { UpdateParams } = useGetData();
+  const [range, setRange] = useState([800, 5000]);
+
+  const updateParams = useUpdateParams();
 
   function changePrice(minValue, maxValue) {
-    UpdateParams({ miniPrice: minValue, maxPrice: maxValue });
+    updateParams({ miniPrice: minValue, maxPrice: maxValue });
   }
 
   function getRange(value) {

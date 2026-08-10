@@ -1,12 +1,18 @@
+import { useUpdateParams } from "@/lib/utils";
 import { useSelector } from "react-redux";
-import { useGetData } from "../../../Hooks/useGetData";
+import { useSearchParams } from "react-router-dom";
 
 export default function Pagination() {
-  const { totalPages } = useSelector((state) => state.data);
-  const { UpdateParams, page, isLoading } = useGetData("");
+  const { totalPages, isLoading } = useSelector((state) => state.data);
+
+  const updateParams = useUpdateParams();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const page = searchParams.get("page") || 1;
 
   function goToPage(nextPageNumber) {
-    UpdateParams({ page: Number(nextPageNumber) }, { resetPage: false });
+    updateParams({ page: Number(nextPageNumber) }, { resetPage: false });
   }
 
   function prevPage() {
@@ -26,13 +32,13 @@ export default function Pagination() {
   }
 
   const pages = Array.from(
-    { length: Math.ceil(totalPages / 8) },
+    { length: Math.ceil(totalPages / 16) },
     (_, i) => i + 1,
   );
   return (
     <>
       {!isLoading && (
-        <div className="flex items-center gap-2 justify-center mt-6">
+        <div className="flex items-center flex-wrap gap-2 justify-center mt-6">
           <button
             onClick={prevPage}
             disabled={Number(page) === 1}

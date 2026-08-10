@@ -4,6 +4,7 @@ const initialState = {
   isLoading: false,
   totalPages: 0,
   isSidebarOpen: false,
+  isLoggedIn: false,
 };
 
 const listingsSlice = createSlice({
@@ -16,6 +17,12 @@ const listingsSlice = createSlice({
     closeSidebar(state) {
       state.isSidebarOpen = false;
     },
+    logIn(state) {
+      state.isLoggedIn = true;
+    },
+    logOut(state) {
+      state.isLoggedIn = false;
+    },
   },
 });
 
@@ -25,6 +32,8 @@ export const {
   fetchError,
   openSidebar,
   closeSidebar,
+  logIn,
+  logOut,
 } = listingsSlice.actions;
 
 export default listingsSlice.reducer;

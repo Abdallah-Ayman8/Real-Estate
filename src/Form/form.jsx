@@ -3,12 +3,19 @@ import { formValidationSchema } from "./validation";
 import imageCompression from "browser-image-compression";
 import { useState } from "react";
 import { X } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { logIn } from "@/Redux/slices/RealEstate/slicer";
+import { useNavigate } from "react-router-dom";
 // import useInsertData from "../../Hooks/useInsertData";
 // import useDeleteData from "../../Hooks/useDeleteData";
 
 export default function Form() {
   // const { insertData } = useInsertData();
   // const { insertDelete } = useDeleteData();
+
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -30,6 +37,8 @@ export default function Form() {
         // console.log(deletedata);
         formik.resetForm();
         setPreviewImage(null);
+        dispatch(logIn());
+        navigate("/");
       } catch (error) {
         console.error(error);
       }

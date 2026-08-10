@@ -3,7 +3,7 @@ import Tabs from "../Tabs/Tabs";
 
 export default function Header() {
   return (
-    <div className="bg-white rounded-xl p-6 shadow">
+    <div className="w-full bg-white rounded-xl p-6 shadow">
       <Tabs />
 
       <div className="flex items-center justify-between mt-4 flex-wrap gap-4">

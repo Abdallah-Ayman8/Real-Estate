@@ -1,8 +1,10 @@
 import { openSidebar } from "@/Redux/slices/RealEstate/slicer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function Tabs() {
+  const { isLoggedIn } = useSelector((state) => state.listings);
+
   const dispatch = useDispatch();
 
   return (
@@ -22,7 +24,9 @@ export default function Tabs() {
         </button>
       </div>
       <button type="button" className="text-gray-400 cursor-pointer">
-        <Link to={"/form"}>Register</Link>
+        <Link to={`${!isLoggedIn ? "/form" : "/"}`}>
+          {isLoggedIn ? "Log out" : "Log in"}
+        </Link>
       </button>
     </div>
   );

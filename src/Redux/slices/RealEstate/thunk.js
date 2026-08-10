@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../../../../api/RealEstate";
+import { useGetData } from "../../../../Hooks/useGetData";
 
 const initialState = {
   isLoading: false,
@@ -32,47 +33,23 @@ const dataSlice = createSlice({
 
 export const fetchData = createAsyncThunk(
   "data/fetching",
-  async function ({ url, params }, { rejectWithValue }) {
-    console.log(url);
-    const apiKey = import.meta.env.VITE_API_KEY;
+  async (url, { rejectWithValue }) => {
     try {
-      const res = await api.get(`/${url || ""}?${params || ""}`, {
-        headers: {
-          Accept: "application/json",
-          "x-api-key": apiKey,
-          "Accept-Language": "en",
-          platform: "web",
-          "app-version": "1.1",
-          "X-Currency": "EGP",
-        },
-      });
-      const totalPages = res?.data?.meta?.last_page;
-      const data = res?.data?.data;
+      const response = await useGetData(url);
+      const data = response?.data;
+      const totalPages = response.totalPages;
       return { data, totalPages };
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || error.message);
+      return rejectWithValue(error);
     }
   },
 );
 
-export const postData = createAsyncThunk("data/post", async ({ url, data }) => {
-  const apiKey = import.meta.env.VITE_API_KEY;
+export const postData = createAsyncThunk("data/post", async () => {
   try {
-    const res = await api.post(url, data, {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "x-api-key": apiKey,
-        "Accept-Language": "en",
-        platform: "web",
-        "app-version": "1.1",
-        "X-Currency": "EGP",
-      },
-    });
-    if (!res.ok) throw new Error(`request failed with status ${res.status}`);
-    return res.data;
+    ("");
   } catch (error) {
-    console.error(`The Error: ${error}`);
+    console.log(error);
   }
 });
 

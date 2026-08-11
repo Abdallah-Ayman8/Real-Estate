@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { api } from "../../../../api/RealEstate";
 import { useGetData } from "../../../../Hooks/useGetData";
+import { useInsertData } from "../../../../Hooks/useInsertData";
+import { useUpdateData } from "../../../../Hooks/useUpdateData";
+import { useDeleteData } from "../../../../Hooks/useDeleteData";
 
 const initialState = {
   isLoading: false,
@@ -45,57 +47,43 @@ export const fetchData = createAsyncThunk(
   },
 );
 
-export const postData = createAsyncThunk("data/post", async () => {
-  try {
-    ("");
-  } catch (error) {
-    console.log(error);
-  }
-});
+export const postData = createAsyncThunk(
+  "data/post",
+  async ({ url, data }, { rejectWithValue }) => {
+    try {
+      const response = await useInsertData({ url, data });
+      console.log(response);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  },
+);
 
 export const updateData = createAsyncThunk(
   "data/update",
-  async ({ url, data }) => {
-    const apiKey = import.meta.env.VITE_API_KEY;
+  async ({ url, data }, { rejectWithValue }) => {
     try {
-      const res = await api?.patch(`/${url}`, data, {
-        headers: {
-          Accept: "application/json",
-          "x-api-key": apiKey,
-          "Accept-Language": "en",
-          platform: "web",
-          "app-version": "1.1",
-          "X-Currency": "EGP",
-        },
-      });
-
-      if (!res.ok) throw new Error(`request failed with status: ${res.status}`);
-      console.log(res);
+      const response = await useUpdateData({ url, data });
+      // console.log(response);
+      return response.data;
     } catch (error) {
-      console.error(`The Error: ${error}`);
+      return rejectWithValue(error);
     }
   },
 );
 
 export const deleteData = createAsyncThunk(
   "data/delete",
-  async ({ url, id }) => {
-    const apikey = import.meta.env.VITE_API_KEY;
+  async ({ url, id }, { rejectWithValue }) => {
     try {
-      const res = await api.delete(`${url}${id}`, {
-        headers: {
-          Accept: "application/json",
-          "x-api-key": apikey,
-          "Accept-Language": "en",
-          platform: "web",
-          "app-version": "1.1",
-          "X-Currency": "EGP",
-        },
-      });
+      const response = await useDeleteData({ url, id });
 
-      if (!res.ok) throw new Error(`Request failed with status: ${res.status}`);
+      console.log(response);
+
+      return response.data;
     } catch (error) {
-      console.error(`The Error: ${error}`);
+      return rejectWithValue(error);
     }
   },
 );

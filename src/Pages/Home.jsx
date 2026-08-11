@@ -25,7 +25,7 @@ export default function Home() {
         `mobile/real-estates/?limit=${limit}&page=${page || 1}&bedrooms=${bedrooms}&miniPrice=${minPrice || ""}&maxPrice=${maxPrice || ""}&keyword=${keyword}`,
       ),
     );
-    console.log("Data: ", data);
+    // console.log("Data: ", data);
     // const test = dispatch(fetchData("test"));
     // console.log("Test: ", test);
   }, [bedrooms, page, limit, keyword, minPrice, maxPrice, dispatch]);

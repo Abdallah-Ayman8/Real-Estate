@@ -1,12 +1,22 @@
-import { updateData } from "@/Redux/slices/RealEstate/thunk";
-import { useDispatch } from "react-redux";
+import { api, test } from "../api/RealEstate";
 
-export default function useUpdateData() {
-  const dispatch = useDispatch();
+export const useUpdateData = async ({ url, data }) => {
+  try {
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+      Accept: "application/json",
+      "x-api-key": apiKey,
+      "Accept-Language": "en",
+      platform: "web",
+      "app-version": "1.1",
+      "X-Currency": "EGP",
+    };
+    // const res = await test?.patch(`/${url}`, data, { headers });
+    const res = await api?.patch(`/${url}`, data, { headers });
 
-  function insertUpdate(url, data) {
-    return dispatch(updateData({ url, data }));
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.error(`The Error: ${error}`);
   }
-
-  return { insertUpdate };
-}
+};

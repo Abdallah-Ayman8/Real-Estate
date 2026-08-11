@@ -6,6 +6,11 @@ import { X } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { logIn } from "@/Redux/slices/RealEstate/slicer";
 import { useNavigate } from "react-router-dom";
+import {
+  deleteData,
+  postData,
+  updateData,
+} from "@/Redux/slices/RealEstate/thunk";
 // import useInsertData from "../../Hooks/useInsertData";
 // import useDeleteData from "../../Hooks/useDeleteData";
 
@@ -31,10 +36,10 @@ export default function Form() {
     onSubmit: async (values) => {
       try {
         console.log(values);
-        // const res = insertData("mobile/real-estates/", values);
-        // console.log(res);
-        // const deletedata = insertDelete("mobile/real-estates/", 215);
-        // console.log(deletedata);
+        // dispatch(postData({ url: "mobile/real-estates", data: values }));
+        // dispatch(updateData({ url: "", data: values }));
+        // dispatch(deleteData({ url: "", id: 215 }));
+
         formik.resetForm();
         setPreviewImage(null);
         dispatch(logIn());

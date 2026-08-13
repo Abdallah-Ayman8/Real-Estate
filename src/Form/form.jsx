@@ -2,21 +2,26 @@ import { useFormik } from "formik";
 import { formValidationSchema } from "./validation";
 import imageCompression from "browser-image-compression";
 import { useState } from "react";
-import { X } from "lucide-react";
-import { useDispatch } from "react-redux";
-import { logIn } from "@/Redux/slices/RealEstate/slicer";
+import { Eye, EyeClosed, X } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  hideConfirmedPassword,
+  hidePassword,
+  logIn,
+  showConfirmedPassword,
+  showPassword,
+} from "@/Redux/slices/RealEstate/slicer";
 import { useNavigate } from "react-router-dom";
 // import {
 //   deleteData,
 //   postData,
 //   updateData,
 // } from "@/Redux/slices/RealEstate/thunk";
-// import useInsertData from "../../Hooks/useInsertData";
-// import useDeleteData from "../../Hooks/useDeleteData";
 
 export default function Form() {
-  // const { insertData } = useInsertData();
-  // const { insertDelete } = useDeleteData();
+  const { showPasswordToUser, showConfirmedPasswordToUser } = useSelector(
+    (state) => state.listings,
+  );
 
   const dispatch = useDispatch();
 
@@ -36,9 +41,9 @@ export default function Form() {
     onSubmit: async (values) => {
       try {
         console.log(values);
-        // dispatch(postData({ url: "mobile/real-estates", data: values }));
-        // dispatch(updateData({ url: "", data: values }));
-        // dispatch(deleteData({ url: "", id: 215 }));
+        // dispatch(postData({ data: values }));
+        // dispatch(updateData({ url: 215, data: values }));
+        // dispatch(deleteData({ id: 215 }));
 
         formik.resetForm();
         setPreviewImage(null);
@@ -147,34 +152,69 @@ export default function Form() {
             <span className="text-red-600">{formik.errors.phone}</span>
           )}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 relative">
           <label htmlFor="password">Password</label>
           <input
             id="password"
             name="password"
-            type="password"
+            type={`${showPasswordToUser ? "text" : "password"}`}
             placeholder="Password..."
             value={formik.values.password}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="rounded-md ring ring-stone-950 focus:outline-none pl-2 py-2"
           />
+          {showPasswordToUser ? (
+            <button
+              type="button"
+              className="absolute top-1/2 right-2.5 cursor-pointer"
+              onClick={() => dispatch(hidePassword())}
+            >
+              <Eye />
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="absolute top-1/2 right-2.5 cursor-pointer"
+              onClick={() => dispatch(showPassword())}
+            >
+              <EyeClosed />
+            </button>
+          )}
+
           {formik.touched.password && formik.errors.password && (
             <span className="text-red-600">{formik.errors.password}</span>
           )}
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 relative">
           <label htmlFor="confirm_password">Confirm Password</label>
           <input
             id="confirm_password"
             name="confirmPassword"
-            type="password"
+            type={`${showConfirmedPasswordToUser ? "text" : "password"}`}
             placeholder="Confirm password..."
             value={formik.values.confirmPassword}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             className="rounded-md ring ring-stone-950 focus:outline-none pl-2 py-2"
           />
+          {showConfirmedPasswordToUser ? (
+            <button
+              type="button"
+              className="absolute top-1/2 right-2.5 cursor-pointer"
+              onClick={() => dispatch(hideConfirmedPassword())}
+            >
+              <Eye />
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="absolute top-1/2 right-2.5 cursor-pointer"
+              onClick={() => dispatch(showConfirmedPassword())}
+            >
+              <EyeClosed />
+            </button>
+          )}
           {formik.touched.confirmPassword && formik.errors.confirmPassword && (
             <span className="text-red-600">
               {formik.errors.confirmPassword}

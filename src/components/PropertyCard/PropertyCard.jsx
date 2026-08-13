@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 export default function PropertyCard() {
   const { data, isLoading } = useSelector((state) => state.data);
 
+
   return (
     <>
       {isLoading && (

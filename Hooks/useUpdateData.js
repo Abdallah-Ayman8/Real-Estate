@@ -11,8 +11,8 @@ export const useUpdateData = async ({ url, data }) => {
       "app-version": "1.1",
       "X-Currency": "EGP",
     };
-    // const res = await test?.patch(`/${url}`, data, { headers });
-    const res = await api?.patch(`/${url}`, data, { headers });
+    // const res = await test?.put(`/${url}`, data, { headers });
+    const res = await api?.put(`/${url}`, data, { headers });
 
     console.log(res);
     return res;

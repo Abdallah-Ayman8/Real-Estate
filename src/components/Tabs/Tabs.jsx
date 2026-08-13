@@ -15,7 +15,7 @@ export default function Tabs() {
   const { isLoggedIn } = useSelector((state) => state.listings);
 
   const location = useLocation();
-  const data = location.state;
+  const data = location.state ?? null;
 
   const dispatch = useDispatch();
 
@@ -48,7 +48,7 @@ export default function Tabs() {
                     <div className="w-72 sm:w-80 p-2 flex flex-col flex-wrap justify-center items-start gap-3">
                       <div className="flex w-full flex-wrap justify-between items-start">
                         <p className="font-semibold">
-                          <span className="font-bold">Name</span>: {data.name}
+                          <span className="font-bold">Name</span>: {data?.name}
                         </p>
                       </div>
                       <p className="font-semibold">

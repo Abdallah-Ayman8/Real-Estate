@@ -10,9 +10,7 @@ export const fetchData = createAsyncThunk(
     const url = query ? `mobile/real-estates/${query}` : "mobile/real-estates";
     try {
       const response = await useGetData(url);
-      const data = response?.data;
-      const totalPages = response.totalPages;
-      return { data, totalPages };
+      return response;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -21,11 +19,14 @@ export const fetchData = createAsyncThunk(
 
 export const postData = createAsyncThunk(
   "data/post",
-  async ({ url, data }, { rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     try {
-      const response = await useInsertData({ url, data });
-      console.log(response);
-      return response;
+      const response = await useInsertData({
+        url: "mobile/real-estates",
+        data,
+      });
+      const res = response?.data;
+      return res;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -34,28 +35,29 @@ export const postData = createAsyncThunk(
 
 export const updateData = createAsyncThunk(
   "data/update",
-  async ({ url, data }, { rejectWithValue }) => {
+  async ({ id, data }, { rejectWithValue }) => {
     try {
-      const response = await useUpdateData({ url, data });
-      // console.log(response);
-      return response.data;
+      const response = await useUpdateData({
+        url: `mobile/real-estates/${id}`,
+        data,
+      });
+      const data = response?.data;
+      return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error?.response?.data || error.message);
     }
   },
 );
 
 export const deleteData = createAsyncThunk(
   "data/delete",
-  async ({ url, id }, { rejectWithValue }) => {
+  async ({ id }, { rejectWithValue }) => {
     try {
-      const response = await useDeleteData({ url, id });
-
-      console.log(response);
-
-      return response.data;
+      const response = await useDeleteData({ url: "mobile/real-estates", id });
+      const data = response.data;
+      return data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error?.response?.message || error?.message);
     }
   },
 );

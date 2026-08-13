@@ -1,12 +1,7 @@
-import { useLocation } from "react-router-dom";
 import Button from "../Button/Button";
 import Tabs from "../Tabs/Tabs";
 
 export default function Header() {
-  const location = useLocation();
-  const data = location.state;
-  console.log(data);
-
   return (
     <div className="w-full bg-white rounded-xl p-6 shadow">
       <Tabs />

@@ -6,7 +6,8 @@ const initialListingsState = {
   isSidebarOpen: false,
   isLoggedIn: false,
   resend: true,
-  showDropDownMenuState: false,
+  showPasswordToUser: false,
+  showConfirmedPasswordToUser: false,
 };
 
 const listingsSlice = createSlice({
@@ -31,11 +32,17 @@ const listingsSlice = createSlice({
     disableResendBtn(state) {
       state.resend = true;
     },
-    showDropDownMenu(state) {
-      state.showDropDownMenuState = true;
+    showPassword(state) {
+      state.showPasswordToUser = true;
     },
-    hideDropDownMenu(state) {
-      state.showDropDownMenuState = false;
+    hidePassword(state) {
+      state.showPasswordToUser = false;
+    },
+    showConfirmedPassword(state) {
+      state.showConfirmedPasswordToUser = true;
+    },
+    hideConfirmedPassword(state) {
+      state.showConfirmedPasswordToUser = false;
     },
   },
 });
@@ -50,8 +57,10 @@ export const {
   logOut,
   activateResendBtn,
   disableResendBtn,
-  showDropDownMenu,
-  hideDropDownMenu,
+  showPassword,
+  hidePassword,
+  showConfirmedPassword,
+  hideConfirmedPassword,
 } = listingsSlice.actions;
 
 export default listingsSlice.reducer;

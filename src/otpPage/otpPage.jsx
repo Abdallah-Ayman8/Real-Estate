@@ -21,8 +21,9 @@ export default function OtpPage() {
   const { resend } = useSelector((state) => state.listings);
   const dispatch = useDispatch();
 
-  const [seconds, setSeconds] = useState(5);
+  const [seconds, setSeconds] = useState(120);
   const [otp, setOtp] = useState("");
+  const [resetSignal, setResetSignal] = useState(0);
 
   return (
     <div className="bg-[#eee] w-full min-h-screen flex justify-center items-center px-4">
@@ -43,7 +44,11 @@ export default function OtpPage() {
               <InputOTPSlot index={3} />
             </InputOTPGroup>
           </InputOTP>
-          <Timer seconds={seconds} setSeconds={setSeconds} />
+          <Timer
+            seconds={seconds}
+            setSeconds={setSeconds}
+            resetSignal={resetSignal}
+          />
         </div>
         <div className="w-[80%]">
           <Toaster />
@@ -70,7 +75,7 @@ export default function OtpPage() {
               disabled={resend || otp.length > 0}
               onClick={() => {
                 dispatch(disableResendBtn());
-                setSeconds(5);
+                setResetSignal((prev) => prev + 1);
               }}
             >
               Resend code

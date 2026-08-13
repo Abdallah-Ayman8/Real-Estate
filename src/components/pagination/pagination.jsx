@@ -35,6 +35,7 @@ export default function Pagination() {
     { length: Math.ceil(totalPages / 16) },
     (_, i) => i + 1,
   );
+
   return (
     <>
       {!isLoading && (
@@ -61,7 +62,7 @@ export default function Pagination() {
 
           <button
             onClick={nextPage}
-            disabled={Number(page) === Math.ceil(totalPages / 8)}
+            disabled={Number(page) === Math.ceil(totalPages / 16)}
             className="px-3 py-1 border rounded disabled:opacity-40 cursor-pointer disabled:cursor-default"
           >
             Next

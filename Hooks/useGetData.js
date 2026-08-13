@@ -1,4 +1,4 @@
-import { api } from "../api/RealEstate";
+import { api } from "../api/BaseUrl";
 
 export const useGetData = async (url) => {
   // Axios
@@ -18,6 +18,7 @@ export const useGetData = async (url) => {
     const res = await api.get(url, {
       headers,
     });
+
     const totalPages = res?.data?.meta?.total;
     const data = res?.data?.data;
     return { data, totalPages };

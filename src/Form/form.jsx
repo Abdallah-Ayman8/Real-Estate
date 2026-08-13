@@ -6,11 +6,11 @@ import { X } from "lucide-react";
 import { useDispatch } from "react-redux";
 import { logIn } from "@/Redux/slices/RealEstate/slicer";
 import { useNavigate } from "react-router-dom";
-import {
-  deleteData,
-  postData,
-  updateData,
-} from "@/Redux/slices/RealEstate/thunk";
+// import {
+//   deleteData,
+//   postData,
+//   updateData,
+// } from "@/Redux/slices/RealEstate/thunk";
 // import useInsertData from "../../Hooks/useInsertData";
 // import useDeleteData from "../../Hooks/useDeleteData";
 
@@ -43,7 +43,7 @@ export default function Form() {
         formik.resetForm();
         setPreviewImage(null);
         dispatch(logIn());
-        navigate("/");
+        navigate("/form/otp", { state: values });
       } catch (error) {
         console.error(error);
       }
@@ -64,6 +64,7 @@ export default function Form() {
     const file = e.currentTarget.files[0];
 
     if (!file) return;
+
     try {
       const compressedImage = await imageCompression(file, options);
 
@@ -79,8 +80,9 @@ export default function Form() {
     <div className="flex w-full min-h-screen py-8 justify-center items-center">
       <form
         onSubmit={formik.handleSubmit}
-        className="w-1/2 flex flex-col gap-3"
+        className="w-160 mx-2 flex flex-col gap-3 bg-[#eee] p-4 rounded-xl"
       >
+        <h1 className="text-2xl">Log in Form</h1>
         <div className="flex flex-col gap-2">
           <label htmlFor="email">Email</label>
           <input

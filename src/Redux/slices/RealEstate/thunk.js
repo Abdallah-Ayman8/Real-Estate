@@ -1,41 +1,13 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { useGetData } from "../../../../Hooks/useGetData";
 import { useInsertData } from "../../../../Hooks/useInsertData";
 import { useUpdateData } from "../../../../Hooks/useUpdateData";
 import { useDeleteData } from "../../../../Hooks/useDeleteData";
 
-const initialState = {
-  isLoading: false,
-  data: null,
-  totalPages: 0,
-  error: null,
-  inserData: "",
-};
-
-const dataSlice = createSlice({
-  name: "data",
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchData.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchData.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.data = action.payload.data;
-        state.totalPages = action.payload.totalPages;
-      })
-      .addCase(fetchData.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      });
-  },
-});
-
 export const fetchData = createAsyncThunk(
   "data/fetching",
-  async (url, { rejectWithValue }) => {
+  async (query, { rejectWithValue }) => {
+    const url = query ? `mobile/real-estates/${query}` : "mobile/real-estates";
     try {
       const response = await useGetData(url);
       const data = response?.data;
@@ -87,5 +59,3 @@ export const deleteData = createAsyncThunk(
     }
   },
 );
-
-export default dataSlice.reducer;

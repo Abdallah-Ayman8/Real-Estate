@@ -1,4 +1,4 @@
-import { api, test } from "../api/RealEstate";
+import { api, test } from "../api/BaseUrl";
 
 export const useDeleteData = async ({ url, id }) => {
   try {

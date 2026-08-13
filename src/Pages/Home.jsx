@@ -20,9 +20,10 @@ export default function Home() {
 
   const dispatch = useDispatch();
   useEffect(() => {
+    // add ternary operator for query
     const data = dispatch(
       fetchData(
-        `mobile/real-estates/?limit=${limit}&page=${page || 1}&bedrooms=${bedrooms}&miniPrice=${minPrice || ""}&maxPrice=${maxPrice || ""}&keyword=${keyword}`,
+        `?limit=${limit}&page=${page || 1}&bedrooms=${bedrooms}&miniPrice=${minPrice || ""}&maxPrice=${maxPrice || ""}&keyword=${keyword}`,
       ),
     );
     // console.log("Data: ", data);

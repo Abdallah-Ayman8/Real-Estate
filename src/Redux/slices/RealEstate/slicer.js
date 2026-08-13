@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+const initialListingsState = {
   isLoading: false,
   totalPages: 0,
   isSidebarOpen: false,
   isLoggedIn: false,
+  resend: true,
+  showDropDownMenuState: false,
 };
 
 const listingsSlice = createSlice({
   name: "listings",
-  initialState,
+  initialState: initialListingsState,
   reducers: {
     openSidebar(state) {
       state.isSidebarOpen = true;
@@ -23,6 +25,18 @@ const listingsSlice = createSlice({
     logOut(state) {
       state.isLoggedIn = false;
     },
+    activateResendBtn(state) {
+      state.resend = false;
+    },
+    disableResendBtn(state) {
+      state.resend = true;
+    },
+    showDropDownMenu(state) {
+      state.showDropDownMenuState = true;
+    },
+    hideDropDownMenu(state) {
+      state.showDropDownMenuState = false;
+    },
   },
 });
 
@@ -34,6 +48,10 @@ export const {
   closeSidebar,
   logIn,
   logOut,
+  activateResendBtn,
+  disableResendBtn,
+  showDropDownMenu,
+  hideDropDownMenu,
 } = listingsSlice.actions;
 
 export default listingsSlice.reducer;

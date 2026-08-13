@@ -1,4 +1,4 @@
-import { api } from "../api/RealEstate";
+import { api } from "../api/BaseUrl";
 
 export const useInsertData = async ({ url, data }) => {
   try {

@@ -3,10 +3,10 @@ import Sidebar from "../components/SideBar/SideBar";
 import SearchBar from "../components/SearchBar/SearchBar";
 import PropertyGrid from "../components/PropertyGrid/PropertyGrid";
 import Pagination from "../components/pagination/pagination";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { fetchData } from "@/Redux/slices/RealEstate/thunk";
 import { useSearchParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchData } from "@/Redux/slices/RealEstate/thunk";
+import { useEffect } from "react";
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();

@@ -52,14 +52,14 @@ export default function Tabs() {
                         </p>
                       </div>
                       <p className="font-semibold">
-                        <span className="font-bold">userName</span> :
-                        {data.userName}
+                        <span className="font-bold">UserName</span> :
+                        {data?.userName}
                       </p>
                       <p className="font-semibold">
-                        <span className="font-bold">Email</span>: {data.email}
+                        <span className="font-bold">Email</span>: {data?.email}
                       </p>
                       <p className="font-semibold">
-                        <span className="font-bold">Phone</span>: {data.phone}
+                        <span className="font-bold">Phone</span>: {data?.phone}
                       </p>
                       <button
                         type="button"

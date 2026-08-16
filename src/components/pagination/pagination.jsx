@@ -13,6 +13,7 @@ export default function Pagination() {
 
   function goToPage(nextPageNumber) {
     updateParams({ page: Number(nextPageNumber) }, { resetPage: false });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function prevPage() {
@@ -28,6 +29,7 @@ export default function Pagination() {
     // });
     const canAdvance = totalPages > 1 && Number(page) < totalPages / 8;
     if (canAdvance) goToPage(Number(page) + 1);
+
     // console.log(canAdvance);
   }
 

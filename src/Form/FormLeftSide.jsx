@@ -7,12 +7,12 @@ export default function FormLeftSide() {
         <div className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/30">
           <Home className="w-5 h-5 text-white" strokeWidth={2.5} />
         </div>
-        <span className="text-white text-xl font-bold">Yozya</span>
+        <span className="text-white text-xl font-bold">Real-Estates</span>
       </div>
 
       <div className="mt-16">
         <h1 className="text-white text-2xl font-bold leading-tight">
-          Join Yozya,
+          Join Real-Estates,
           <br />
           find home faster.
         </h1>

@@ -58,8 +58,18 @@ export default function OtpPage() {
             disabled={otp.length <= 3}
             onClick={() => {
               if (otp === "0000") {
-                dispatch(logIn());
-                navigate("/", { state: data });
+                let userData;
+
+                if (data.image instanceof Blob) {
+                  userData = {
+                    ...data,
+                    image: URL.createObjectURL(data.image),
+                  };
+                }
+
+                dispatch(logIn(userData));
+                localStorage.setItem("userData", JSON.stringify(userData));
+                navigate("/", { state: userData });
               } else {
                 return notify();
               }
@@ -71,8 +81,8 @@ export default function OtpPage() {
             <p>Didn't receive a code?</p>
             <button
               type="button"
-              className={`font-semibold text-stone-600 cursor-pointer disabled:font-normal ${!resend && !otp.length === 0 && "underline"}`}
-              disabled={resend || otp.length > 0}
+              className={`font-semibold text-stone-600 cursor-pointer disabled:font-normal ${!resend && "underline"}`}
+              disabled={resend}
               onClick={() => {
                 dispatch(disableResendBtn());
                 setResetSignal((prev) => prev + 1);

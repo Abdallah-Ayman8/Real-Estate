@@ -10,9 +10,13 @@ export default function Timer({ seconds, setSeconds, resetSignal }) {
 
     if (savedEndTime) {
       const remaining = Math.ceil((Number(savedEndTime) - Date.now()) / 1000);
-      if (remaining > 0) setSeconds(remaining > 0 ? remaining : 0);
+      if (remaining > 0) {
+        setSeconds(remaining);
+      } else {
+        localStorage.removeItem("timerKey");
+        setSeconds(0);
+      }
     } else {
-      localStorage.removeItem("timerKey");
       const endTime = Date.now() + 120 * 1000;
       localStorage.setItem("timerKey", endTime);
       setSeconds(120);
@@ -20,20 +24,22 @@ export default function Timer({ seconds, setSeconds, resetSignal }) {
   }, [resetSignal]);
 
   useEffect(() => {
-    if (seconds === 0) {
-      dispatch(activateResendBtn());
-      localStorage.removeItem("timerKey");
-    }
-
     const timer = setInterval(() => {
       const endTime = Number(localStorage.getItem("timerKey"));
-      if (!endTime) return;
+      if (!endTime || endTime === 0) return;
       const remaining = Math.ceil((endTime - Date.now()) / 1000);
-      setSeconds(remaining > 0 ? Number(remaining) : 0);
+      const clamped = remaining > 0 ? remaining : 0;
+
+      setSeconds(clamped);
+
+      if (clamped === 0) {
+        dispatch(activateResendBtn());
+        localStorage.removeItem("timerKey");
+      }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [dispatch, seconds, setSeconds]);
+  }, [dispatch, setSeconds]);
 
   return <p className="self-start">{seconds}</p>;
 }

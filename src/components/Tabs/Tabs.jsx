@@ -2,7 +2,7 @@ import { logOut, openSidebar } from "@/Redux/slices/RealEstate/slicer";
 
 import { CircleUserRound } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,10 +12,9 @@ import {
 } from "../ui/navigation-menu";
 
 export default function Tabs() {
-  const { isLoggedIn } = useSelector((state) => state.listings);
+  const { isLoggedIn, user } = useSelector((state) => state.listings);
 
-  const location = useLocation();
-  const data = location.state ?? null;
+  const data = user ?? null;
 
   const dispatch = useDispatch();
 

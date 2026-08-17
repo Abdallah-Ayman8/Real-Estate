@@ -12,7 +12,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 export default function OtpPage() {
   const location = useLocation();
-  const data = location.state;
+  const data = location?.state;
 
   const notify = () => toast("Invalid OTP code");
 
@@ -31,7 +31,7 @@ export default function OtpPage() {
         <div className="flex flex-col gap-2 justify-center items-center mb-14">
           <h1 className="text-2xl font-semibold">Verification Code</h1>
           <p className=" text-center">
-            Please <span className="font-semibold">Mr.{data.name}</span> Enter
+            Please <span className="font-semibold">Mr.{data?.name}</span> Enter
             the code sent to your phone number.
           </p>
         </div>

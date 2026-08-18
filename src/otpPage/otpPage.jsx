@@ -21,7 +21,6 @@ export default function OtpPage() {
   const { resend } = useSelector((state) => state.listings);
   const dispatch = useDispatch();
 
-  const [seconds, setSeconds] = useState(120);
   const [otp, setOtp] = useState("");
   const [resetSignal, setResetSignal] = useState(0);
 
@@ -44,11 +43,7 @@ export default function OtpPage() {
               <InputOTPSlot index={3} />
             </InputOTPGroup>
           </InputOTP>
-          <Timer
-            seconds={seconds}
-            setSeconds={setSeconds}
-            resetSignal={resetSignal}
-          />
+          <Timer resetSignal={resetSignal} />
         </div>
         <div className="w-[80%]">
           <Toaster />

@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchData } from "./thunk";
+import { type initialDataState } from "@/Redux/SlicerTypes";
 
-const initialDataState = {
+const initialDataState: initialDataState = {
   isLoading: false,
   data: null,
   totalPages: 0,

@@ -4,7 +4,7 @@ import { Loader } from "lucide-react";
 import { useSelector } from "react-redux";
 
 export default function PropertyCard() {
-  const { data, isLoading } = useSelector((state) => state.data);
+  const { data, isLoading } = useSelector((state: any) => state.data);
 
   return (
     <>

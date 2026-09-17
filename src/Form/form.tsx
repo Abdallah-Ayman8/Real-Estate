@@ -13,20 +13,26 @@ import {
 } from "@/Redux/slices/RealEstate/slicer";
 import { useNavigate } from "react-router-dom";
 import FormLeftSide from "./FormLeftSide";
-// import {
-//   deleteData,
-//   postData,
-//   updateData,
-// } from "@/Redux/slices/RealEstate/thunk";
+import { RootState } from "@reduxjs/toolkit/query";
 
 export default function Form() {
   const { showPasswordToUser, showConfirmedPasswordToUser } = useSelector(
-    (state) => state.listings,
+    (state: any) => state.listings,
   );
 
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  type FormValues = {
+    email: string;
+    userName: string;
+    name: string;
+    phone: string;
+    password: string;
+    confirmPassword: string;
+    image: File | null;
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -36,16 +42,11 @@ export default function Form() {
       phone: "",
       password: "",
       confirmPassword: "",
-      image: "",
+      image: null,
     },
     validationSchema: formValidationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values: any) => {
       try {
-        console.log(values);
-        // dispatch(postData({ data: values }));
-        // dispatch(updateData({ url: 215, data: values }));
-        // dispatch(deleteData({ id: 215 }));
-
         formik.resetForm();
         setPreviewImage(null);
         dispatch(logIn());
@@ -56,9 +57,9 @@ export default function Form() {
     },
   });
 
-  const [previewImage, setPreviewImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
-  async function handleImageChange(e) {
+  async function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1200,
@@ -67,7 +68,7 @@ export default function Form() {
       initialQuality: 0.8,
     };
 
-    const file = e.currentTarget.files[0];
+    const file: File | null = e?.currentTarget?.files?.[0] ?? null;
 
     if (!file) return;
 
@@ -276,7 +277,7 @@ export default function Form() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 overflow-x-hidden overflow-y-scroll h-16">
             <label className="text-sm font-medium text-slate-700">
               Profile Picture
             </label>
@@ -293,7 +294,7 @@ export default function Form() {
               <label
                 type="button"
                 htmlFor="images"
-                className="w-fit flex items-center gap-2 border border-slate-200 rounded-full px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition cursor-pointer"
+                className="w-fit h-fit flex items-center gap-2 border border-slate-200 rounded-full px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition cursor-pointer"
               >
                 Choose Image
               </label>
@@ -303,10 +304,10 @@ export default function Form() {
                 </span>
               )}
               {previewImage && (
-                <div className="flex flex-col gap-2 rounded-xl relative">
+                <div className="flex flex-col gap-2 rounded-xl relative pr-2">
                   <button
                     type="button"
-                    className="absolute -top-2 -right-2 z-9999 cursor-pointer"
+                    className="absolute top-0 right-2 z-9999 cursor-pointer"
                     onClick={() => setPreviewImage(null)}
                   >
                     <X size={16} className="text-red-900" />
@@ -314,7 +315,7 @@ export default function Form() {
                   <img
                     src={previewImage}
                     alt="uploaded image"
-                    className="rounded-md w-18"
+                    className="rounded-md w-40"
                   />
                 </div>
               )}

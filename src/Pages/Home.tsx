@@ -4,31 +4,32 @@ import SearchBar from "../components/SearchBar/SearchBar";
 import PropertyGrid from "../components/PropertyGrid/PropertyGrid";
 import Pagination from "../components/pagination/pagination";
 import { useSearchParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { fetchData } from "@/Redux/slices/RealEstate/thunk";
 import { useEffect } from "react";
+import { useAppDispatch } from "@/Redux/store/hooks";
 
 export default function Home() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const bedrooms = searchParams.get("bedrooms") || "";
-  const maxPrice = searchParams.get("maxPrice");
-  const minPrice = searchParams.get("minPrice");
-  const page = searchParams.get("page") || 1;
-  const limit = searchParams.get("limit") || 12;
-  const keyword = searchParams.get("keyword") || "";
+  const bedrooms: string | null = searchParams.get("bedrooms") || null;
+  const maxPrice: string | null = searchParams.get("maxPrice") || null;
+  const minPrice: string | null = searchParams.get("minPrice") || null;
+  const page: string = searchParams.get("page") || "1";
+  const limit: string = searchParams.get("limit") || "12";
+  const keyword: string | null = searchParams.get("keyword") || null;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    // add ternary operator for query
+    // add ternary operator for query: Done
     const data = dispatch(
       fetchData(
-        `?limit=${limit}&page=${page || 1}&bedrooms=${bedrooms}&miniPrice=${minPrice || ""}&maxPrice=${maxPrice || ""}&keyword=${keyword}`,
+        `?limit=${limit}&page=${page}` +
+          (bedrooms ? `&bedrooms=${bedrooms}` : "") +
+          (minPrice ? `&minPrice=${minPrice}` : "") +
+          (maxPrice ? `&maxPrice=${maxPrice}` : "") +
+          (keyword ? `&keyword=${keyword}` : ""),
       ),
     );
-    // console.log("Data: ", data);
-    // const test = dispatch(fetchData("test"));
-    // console.log("Test: ", test);
   }, [bedrooms, page, limit, keyword, minPrice, maxPrice, dispatch]);
 
   return (

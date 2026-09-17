@@ -1,7 +1,16 @@
 import { Slider as SliderPrimitive } from "@base-ui/react/slider";
 import { cn } from "@/lib/utils";
 
-function Slider({ className, defaultValue, value, min, max, ...props }) {
+type SliderProps = React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>;
+
+function Slider({
+  className,
+  defaultValue,
+  value,
+  min,
+  max,
+  ...props
+}: SliderProps) {
   const _values = Array.isArray(value)
     ? value
     : Array.isArray(defaultValue)

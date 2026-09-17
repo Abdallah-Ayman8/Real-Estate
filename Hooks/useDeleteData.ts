@@ -1,6 +1,11 @@
-import { api, test } from "../api/BaseUrl";
+import { api } from "../api/BaseUrl";
 
-export const useDeleteData = async ({ url, id }) => {
+type DeleteDataParams = {
+  url: string;
+  id: string;
+};
+
+export const useDeleteData = async ({ url, id }: DeleteDataParams) => {
   try {
     const apikey = import.meta.env.VITE_API_KEY;
     const headers = {
@@ -11,7 +16,6 @@ export const useDeleteData = async ({ url, id }) => {
       "app-version": "1.1",
       "X-Currency": "EGP",
     };
-    // const res = await test.delete(`${url}/${id}`, { headers });
     const res = await api.delete(`${url}/${id}`, { headers });
     console.log(res);
     return res;

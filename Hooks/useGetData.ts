@@ -1,6 +1,6 @@
 import { api } from "../api/BaseUrl";
 
-export const useGetData = async (url) => {
+export const useGetData = async (url: string) => {
   // Axios
 
   try {
@@ -22,7 +22,7 @@ export const useGetData = async (url) => {
     const totalPages = res?.data?.meta?.total;
     const data = res?.data?.data;
     return { data, totalPages };
-  } catch (error) {
+  } catch (error: any) {
     return error.response?.data?.message || error.message;
   }
 };

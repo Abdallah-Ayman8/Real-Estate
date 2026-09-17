@@ -7,11 +7,11 @@ export default function PriceFilter() {
 
   const updateParams = useUpdateParams();
 
-  function changePrice(minValue, maxValue) {
-    updateParams({ miniPrice: minValue, maxPrice: maxValue });
+  function changePrice(minValue: number, maxValue: number) {
+    updateParams({ miniPrice: String(minValue), maxPrice: String(maxValue) });
   }
 
-  function getRange(value) {
+  function getRange(value: number[]) {
     setRange(value);
     changePrice(range[0], range[1]);
   }
@@ -24,7 +24,7 @@ export default function PriceFilter() {
 
       <Slider
         value={range}
-        onValueChange={(value) => getRange(value)}
+        onValueChange={(value: [number, number]) => getRange(value)}
         defaultValue={[800, 2000]}
         min={500}
         max={6000}

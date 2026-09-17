@@ -12,16 +12,16 @@ import toast, { Toaster } from "react-hot-toast";
 
 export default function OtpPage() {
   const location = useLocation();
-  const data = location?.state;
+  const data: any = location?.state;
 
   const notify = () => toast("Invalid OTP code");
 
   const navigate = useNavigate();
 
-  const { resend } = useSelector((state) => state.listings);
+  const { resend } = useSelector((state: any) => state.listings);
   const dispatch = useDispatch();
 
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState<number | string | null>(null);
   const [resetSignal, setResetSignal] = useState(0);
 
   return (
@@ -35,7 +35,10 @@ export default function OtpPage() {
           </p>
         </div>
         <div className="flex flex-col gap-2 justify-center items-center">
-          <InputOTP maxLength={4} onChange={(value) => setOtp(value)}>
+          <InputOTP
+            maxLength={4}
+            onChange={(value: number | string | null) => setOtp(value)}
+          >
             <InputOTPGroup>
               <InputOTPSlot index={0} />
               <InputOTPSlot index={1} />
@@ -50,7 +53,7 @@ export default function OtpPage() {
           <button
             type="button"
             className="w-full font-semibold bg-blue-600 px-16 py-3 mt-14 rounded-xl cursor-pointer disabled:bg-blue-400"
-            disabled={otp.length <= 3}
+            disabled={otp === null || otp.toString().length <= 3}
             onClick={() => {
               if (otp === "0000") {
                 let userData;
@@ -64,6 +67,7 @@ export default function OtpPage() {
 
                 dispatch(logIn(userData));
                 localStorage.setItem("userData", JSON.stringify(userData));
+                localStorage.removeItem("timerKey");
                 navigate("/", { state: userData });
               } else {
                 return notify();

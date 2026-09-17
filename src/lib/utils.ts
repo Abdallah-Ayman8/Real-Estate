@@ -2,14 +2,17 @@ import { clsx } from "clsx";
 import { useSearchParams } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 
-function cn(...inputs) {
+function cn(...inputs: Parameters<typeof clsx>) {
   return twMerge(clsx(inputs));
 }
 
 function useUpdateParams() {
   const [searchParams, setSearchParams] = useSearchParams();
-  function updateParam(updates, { resetPage = true } = {}) {
-    const params = new URLSearchParams(searchParams);
+  function updateParam(
+    updates: Record<string, string | null | undefined>,
+    { resetPage = true } = {},
+  ) {
+    const params= new URLSearchParams(searchParams);
     Object.entries(updates).forEach(([key, value]) => {
       if (value === "" || value === null || value === undefined) {
         params.delete(key);

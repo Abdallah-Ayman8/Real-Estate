@@ -2,10 +2,10 @@ import { activateResendBtn } from "@/Redux/slices/RealEstate/slicer";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-export default function Timer({ resetSignal }) {
+export default function Timer({ resetSignal }: { resetSignal: number }) {
   const dispatch = useDispatch();
 
-  const [seconds, setSeconds] = useState(120);
+  const [seconds, setSeconds] = useState<number>(120);
 
   useEffect(() => {
     const savedEndTime = localStorage.getItem("timerKey");
@@ -20,7 +20,7 @@ export default function Timer({ resetSignal }) {
       }
     } else {
       const endTime = Date.now() + 120 * 1000;
-      localStorage.setItem("timerKey", endTime);
+      localStorage.setItem("timerKey", String(endTime));
       setSeconds(120);
     }
   }, [resetSignal]);

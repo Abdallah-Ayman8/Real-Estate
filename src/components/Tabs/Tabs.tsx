@@ -12,7 +12,7 @@ import {
 } from "../ui/navigation-menu";
 
 export default function Tabs() {
-  const { isLoggedIn, user } = useSelector((state) => state.listings);
+  const { isLoggedIn, user } = useSelector((state: any) => state.listings);
 
   const data = user ?? null;
 

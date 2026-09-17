@@ -1,6 +1,11 @@
 import { api } from "../api/BaseUrl";
 
-export const useInsertData = async ({ url, data }) => {
+type InsertDataParams = {
+  url: string;
+  data: any;
+};
+
+export const useInsertData = async ({ url, data }: InsertDataParams) => {
   try {
     const apiKey = import.meta.env.VITE_API_KEY;
     const headers = {
@@ -16,7 +21,7 @@ export const useInsertData = async ({ url, data }) => {
     const res = await api?.post(`/${url || ""}`, data, { headers });
 
     return res.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error(`The Error: ${error}`);
   }
 };

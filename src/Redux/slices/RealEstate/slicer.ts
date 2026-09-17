@@ -1,11 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { type initialListingsState } from "@/Redux/SlicerTypes";
 
-const initialListingsState = {
+const storedIsLoggedIn = localStorage.getItem("isLoggedIn");
+const storedUser: string | null = localStorage.getItem("userData");
+
+const initialListingsState: initialListingsState = {
   isLoading: false,
   totalPages: 0,
   isSidebarOpen: false,
-  isLoggedIn: JSON.parse(localStorage.getItem("isLoggedIn")) ?? false,
-  user: JSON.parse(localStorage.getItem("userData")) ?? null,
+  isLoggedIn: storedIsLoggedIn ? JSON.parse(storedIsLoggedIn) : false,
+  user: storedUser ? JSON.parse(storedUser) : null,
   resend: true,
   showPasswordToUser: false,
   showConfirmedPasswordToUser: false,
@@ -25,13 +29,13 @@ const listingsSlice = createSlice({
       state.isLoggedIn = true;
       state.user = action.payload;
       localStorage.setItem("isLoggedIn", JSON.stringify(true));
-      localStorage.setItem("user", JSON.stringify(action.payload));
+      localStorage.setItem("userData", JSON.stringify(action.payload));
     },
     logOut(state) {
       state.isLoggedIn = false;
       state.user = null;
       localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("user");
+      localStorage.removeItem("userData");
     },
     activateResendBtn(state) {
       state.resend = false;
@@ -55,9 +59,6 @@ const listingsSlice = createSlice({
 });
 
 export const {
-  fetchStart,
-  fetchSuccess,
-  fetchError,
   openSidebar,
   closeSidebar,
   logIn,

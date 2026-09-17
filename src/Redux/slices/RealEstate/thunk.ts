@@ -6,12 +6,12 @@ import { useDeleteData } from "../../../../Hooks/useDeleteData";
 
 export const fetchData = createAsyncThunk(
   "data/fetching",
-  async (query, { rejectWithValue }) => {
+  async (query: string, { rejectWithValue }) => {
     const url = query ? `mobile/real-estates/${query}` : "mobile/real-estates";
     try {
       const response = await useGetData(url);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error);
     }
   },
@@ -19,7 +19,7 @@ export const fetchData = createAsyncThunk(
 
 export const postData = createAsyncThunk(
   "data/post",
-  async (data, { rejectWithValue }) => {
+  async (data: any, { rejectWithValue }) => {
     try {
       const response = await useInsertData({
         url: "mobile/real-estates",
@@ -35,15 +35,15 @@ export const postData = createAsyncThunk(
 
 export const updateData = createAsyncThunk(
   "data/update",
-  async ({ id, data }, { rejectWithValue }) => {
+  async ({ id, data }: { id: string; data: string[] }, { rejectWithValue }) => {
     try {
       const response = await useUpdateData({
         url: `mobile/real-estates/${id}`,
         data,
       });
-      const data = response?.data;
-      return data;
-    } catch (error) {
+      const info = response?.data;
+      return info;
+    } catch (error: any) {
       return rejectWithValue(error?.response?.data || error.message);
     }
   },
@@ -51,12 +51,15 @@ export const updateData = createAsyncThunk(
 
 export const deleteData = createAsyncThunk(
   "data/delete",
-  async ({ id }, { rejectWithValue }) => {
+  async ({ id }: { id: string }, { rejectWithValue }) => {
     try {
-      const response = await useDeleteData({ url: "mobile/real-estates", id });
-      const data = response.data;
+      const response: any = await useDeleteData({
+        url: "mobile/real-estates",
+        id,
+      });
+      const data = response?.data;
       return data;
-    } catch (error) {
+    } catch (error: any) {
       return rejectWithValue(error?.response?.message || error?.message);
     }
   },

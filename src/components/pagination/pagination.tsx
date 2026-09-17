@@ -3,34 +3,26 @@ import { useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
 export default function Pagination() {
-  const { totalPages, isLoading } = useSelector((state) => state.data);
+  const { totalPages, isLoading } = useSelector((state: any) => state.data);
 
   const updateParams = useUpdateParams();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const page = searchParams.get("page") || 1;
+  const page:number = Number(searchParams.get("page")) || 1;
 
-  function goToPage(nextPageNumber) {
-    updateParams({ page: Number(nextPageNumber) }, { resetPage: false });
+  function goToPage(nextPageNumber: number) {
+    updateParams({ page: String(nextPageNumber) }, { resetPage: false });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function prevPage() {
-    if (page > 1) goToPage(Number(page) - 1);
+    if (Number(page) > 1) goToPage(Number(page) - 1);
   }
 
   function nextPage() {
-    // console.log({
-    //   page,
-    //   totalPages,
-    //   pageType: typeof page,
-    //   totalPagesType: typeof totalPages,
-    // });
     const canAdvance = totalPages > 1 && Number(page) < totalPages / 8;
     if (canAdvance) goToPage(Number(page) + 1);
-
-    // console.log(canAdvance);
   }
 
   const pages = Array.from(

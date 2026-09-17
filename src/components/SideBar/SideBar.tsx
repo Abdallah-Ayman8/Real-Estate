@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { closeSidebar } from "@/Redux/slices/RealEstate/slicer";
 
 export default function Sidebar() {
-  const { isSidebarOpen } = useSelector((state) => state.listings);
+  const { isSidebarOpen } = useSelector((state: any) => state.listings);
 
   const dispatch = useDispatch();
 

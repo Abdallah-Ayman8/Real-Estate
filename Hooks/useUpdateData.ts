@@ -1,6 +1,11 @@
-import { api, test } from "../api/BaseUrl";
+import { api } from "../api/BaseUrl";
 
-export const useUpdateData = async ({ url, data }) => {
+type UpdateDataParams = {
+  url: string;
+  data: any;
+};
+
+export const useUpdateData = async ({ url, data }: UpdateDataParams) => {
   try {
     const apiKey = import.meta.env.VITE_API_KEY;
     const headers = {

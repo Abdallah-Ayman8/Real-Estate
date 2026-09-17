@@ -1,12 +1,12 @@
 import { useSearchParams } from "react-router-dom";
 
 export default function FacilitiesFilter() {
-  const items = new Set([1, 2, 3, 4]);
+  const items: Set<number> = new Set([1, 2, 3, 4]);
   const [searchParams, setSearchParams] = useSearchParams();
 
-  function changeBedrooms(value) {
+  function changeBedrooms(value: number) {
     const params = new URLSearchParams(searchParams);
-    params.set("bedrooms", value);
+    params.set("bedrooms", value.toString());
     setSearchParams(params);
   }
 

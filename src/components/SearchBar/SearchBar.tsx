@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 export default function SearchBar() {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  function changekeyword(value) {
+  function changekeyword(value: string) {
     const params = new URLSearchParams(searchParams);
     if (value) {
       params.set("keyword", value);

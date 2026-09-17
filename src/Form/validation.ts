@@ -31,5 +31,5 @@ export const formValidationSchema = yup.object({
     .matches(/^01[0-2,5]{1}[0-9]{8}$/, "Enter a valid phone number")
     .required("Phone is required"),
 
-  image: yup.mixed().required("An image is required"),
+  image: yup.mixed<File>().required("An image is required"),
 });
